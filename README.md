@@ -20,11 +20,15 @@ var options = {"field":key,"url":"./whatever.php","param":{"page":1}}
 ```
 ###key
 you must define a 'key' to popular the grid,it should be a object like this
+```
 var key = {fieldinjson:"text in the table"}
+```
 grid() will use fieldinjson as key to get value from 'data',and use fieldintable to popular table 
 ###data
 if you want to use a javascript variable popularing the grid , pass it like this:
+```
 grid({key:key,data:data})
+```
 data must be array of objects like [{key:variable}]
 ###url
 if want to use json posted by server,make sure the response being a object array just like 'data'
@@ -34,5 +38,7 @@ for now,the pager works for satuations using "url" rather than "data";
 if you have passed in a url,it will create a pager automatically;
 ##SEARCH BOX
 just use a form,and pass it as param
-in my case,the form contains page,pagesize,search condition
+in my case,the form contains page,pagesize,search conditiongrid({"key":key, "url":"./json.php", "param":$("#query").serialize()});
+```
 grid({"key":key, "url":"./json.php", "param":$("#query").serialize()});
+```
