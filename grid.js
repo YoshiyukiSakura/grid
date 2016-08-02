@@ -1,6 +1,5 @@
-//rely on jQuery
+﻿//rely on jQuery
 'use strict';
-
 (function ($) {
 $.fn.Grid = function (option) {
 	//Merge the contents of two or more objects together into the first object.
@@ -9,15 +8,47 @@ $.fn.Grid = function (option) {
 		this.opts.param = $.extend(true, {}, this.opts.param, param);
 	}
 	this.pager = function (current, total) {
-	    var prev, next;
+	    var first = "<a href=\"#\" class=\"pager\" id=\"first\">首页　</a>",
+	    	prev = current*1-1,
+	    	next = current*1+1,
+	    	currentPage = "<span  id=\"page\">"+current+"　</span>",
+	    	last = "<a href=\"#\" class=\"pager\" id=\"last\">　尾页</a>";
+    	if (current=="1") {prev = 1};
+    	if (current==total) {next = total};
 	    $("#pager").empty();
-	    prev = "<a href=\"#\" id=\"former\">上一页</a>";
-	    next = "<a href=\"#\" id=\"latter\">下一页</a>";
-	    if (this.opts.param.page=="1") {prev=""};
-	    if (this.opts.param.page==this.opts.totalpage) {next="";};
-	    $(prev).appendTo($("#pager"));
-		$("#pager").append("<span><a href=\"#\" id=\"page\">"+current+"</a>/<span id=\"total\">共"+total+"</span>页</span>");
-		$(next).appendTo($("#pager"));
+	    $(first).appendTo($("#pager"));
+	    $("<a href=\"#\" class=\"pager\" id=\""+prev+"\">上一页　</a>").appendTo($("#pager"));//上一页按钮
+	    for (var minus=5; minus>0; minus--) //当前开始的前五页pager
+    	{if(current*1-minus>0)
+			{$("<a href=\"#\" class=\"pager\">"+(current*1-minus)+"　</a>").appendTo($("#pager"));}
+		}
+	    $(currentPage).appendTo($("#pager"));
+	    for (var plus=1;  plus<6;  plus++) //当前开始的后五页pager
+    	{	console.log(current*1+plus+"  "+total)
+    		if(current*1+plus<=total)
+    		{$("<a href=\"#\" class=\"pager\" id=\""+(current*1+plus)+"\">"+(current*1+plus)+"　</a>").appendTo($("#pager"));}
+		}
+		$("<a href=\"#\" class=\"pager\" id=\""+next+"\">　下一页</a>").appendTo($("#pager"));//下一页
+		$(last).appendTo($("#pager"));
+		return this;
+		function makeNumberPagers(current){
+			var plusOne = "<a href=\"#\" class=\"pager\" id=\""+(current*1+1)+"\">"+(current*1+1)+"</a>";
+		}
+	}
+	this.changePage = function(target){
+		switch(target){
+			case "first":
+			this.opts.param.page = 1;
+			break;
+			case "last":
+			this.opts.param.page = this.opts.totalpage;
+			break;
+			default:
+			this.opts.param.page = target;
+			break;
+		}
+		this.Grid(this.opts);
+		return this;
 	}
 	this.pagedown = function(){
 		if (this.opts.param.page==this.opts.totalpage) {$("#latter").hide();return this;};
@@ -83,8 +114,9 @@ $.fn.Grid = function (option) {
 	this.append("<div id=\"pager\" style=\"text-align: center;\">");
 	this.pager(this.opts.param.page, this.opts.totalpage);
 	//为未来元素绑定事件和响应动作
-	$("#former",this).click(function(){grid.pageup()  });
-	$("#latter",this).click(function(){grid.pagedown()});
+	$("a.pager",this).click(function(){grid.changePage(this.id)});
+	//$("#former",this).click(function(){grid.changePage('prev')});
+	//$("#latter",this).click(function(){grid.changePage('next')});
     return this.css({ fontWeight: "bold" });
 
 }
