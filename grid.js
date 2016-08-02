@@ -11,7 +11,7 @@ $.fn.Grid = function (option) {
 	    var first = "<a href=\"#\" class=\"pager\" id=\"first\">首页　</a>",
 	    	prev = current*1-1,
 	    	next = current*1+1,
-	    	currentPage = "<span  id=\"page\">"+current+"　</span>",
+	    	currentPage = "<span style=\"font-weight: bold\"id=\"page\">"+current+"　</span>",
 	    	last = "<a href=\"#\" class=\"pager\" id=\"last\">　尾页</a>";
     	if (current=="1") {prev = 1};
     	if (current==total) {next = total};
@@ -20,12 +20,11 @@ $.fn.Grid = function (option) {
 	    $("<a href=\"#\" class=\"pager\" id=\""+prev+"\">上一页　</a>").appendTo($("#pager"));//上一页按钮
 	    for (var minus=5; minus>0; minus--) //当前开始的前五页pager
     	{if(current*1-minus>0)
-			{$("<a href=\"#\" class=\"pager\">"+(current*1-minus)+"　</a>").appendTo($("#pager"));}
+			{$("<a href=\"#\" class=\"pager\" id=\""+(current*1-minus)+"\">"+(current*1-minus)+"　</a>").appendTo($("#pager"));}
 		}
 	    $(currentPage).appendTo($("#pager"));
 	    for (var plus=1;  plus<6;  plus++) //当前开始的后五页pager
-    	{	console.log(current*1+plus+"  "+total)
-    		if(current*1+plus<=total)
+    	{	if(current*1+plus<=total)
     		{$("<a href=\"#\" class=\"pager\" id=\""+(current*1+plus)+"\">"+(current*1+plus)+"　</a>").appendTo($("#pager"));}
 		}
 		$("<a href=\"#\" class=\"pager\" id=\""+next+"\">　下一页</a>").appendTo($("#pager"));//下一页
@@ -80,7 +79,6 @@ $.fn.Grid = function (option) {
 	if (this.opts.data){this.opts.dataArr = option.data}
 	if (this.opts.url) {this.loadData(option.url);}
 	if (typeof(this.opts.replace)=="function") {replace=option.replace};
-	if (typeof(this.opts.onClick)=="function") {$(this).on("click","td",this.opts.onClick);};
 	this.popularfield = function(){
 		//遍历字段，为表格填充中文字段内容，一般在首行
 		for(var offset in this.opts.field)
@@ -95,7 +93,7 @@ $.fn.Grid = function (option) {
 				$("#field").after("<tr class=\"grid-content\" id=\"line"+offset+"\"></tr>");
 				var thisline = $("#line"+offset);
 					for (var key in this.opts.field) {
-						if (key=='id')//默认使用传入的一个字段的值作为其他字段的ID
+						if (key==this.opts.id)//默认使用传入的一个字段的值作为其他字段的ID(未实现)
 							{var tempID = this.opts.dataArr[offset][key]};
 						//检查是否有需要替换的节点内容
 						if (this.opts.replace) {
@@ -115,13 +113,13 @@ $.fn.Grid = function (option) {
 	this.pager(this.opts.param.page, this.opts.totalpage);
 	//为未来元素绑定事件和响应动作
 	$("a.pager",this).click(function(){grid.changePage(this.id)});
-	//$("#former",this).click(function(){grid.changePage('prev')});
-	//$("#latter",this).click(function(){grid.changePage('next')});
-    return this.css({ fontWeight: "bold" });
+	if (typeof(this.opts.onClick)=="function") {$("td",this).click(this.opts.onClick);};
+	return this;
 
 }
 $.fn.Grid.defaults = {
 	field:{key:"notice"},
+	id:"id",
 	dataArr:[{key:"your have passed nothing,data or url"}],//use a json object or not
 	url:false,//use ajax to get data from server or not
 	param:{"page":1,"pagesize":5},//if send param with ajax

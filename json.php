@@ -1,6 +1,6 @@
 ﻿<?php
 $result = array();
-$result['page'] = 4;
+$result['page'] = 10;
 if ($_POST['page']>$result['page']) {
 	$_POST['page']=$result['page'];
 }
