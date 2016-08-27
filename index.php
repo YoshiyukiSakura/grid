@@ -102,14 +102,14 @@ data = [   {"OrderNumber":1,
 			"DeleveryConfirm":"还没确定",
 			"InvoiceCheck":"还没确定",
 			"Modifiable":true}].reverse();
-key = {
-			"OrderNumber":"采购订单编号",
-			"EngineerNumber":"工程编号",
-			"MaterialsType":"物料类型",
-			"BuyDate":"采购日期",
-			"DeleveryConfirm":"确认到货",
-			"InvoiceCheck":"发票校验"	
-			}
+key = [
+		{field:"OrderNumber",text:"采购订单编号"},
+		{field:"EngineerNumber",text:"工程编号"},
+		{field:"MaterialsType",text:"物料类型"},
+		{field:"BuyDate",text:"采购日期"},
+		{field:"DeleveryConfirm",text:"确认到货",replace:function(text){return '<button>'+text+'</button>';}},
+		{field:"InvoiceCheck",text:"发票校验",replace:function(text){return '<button>'+text+'</button>';}}
+	  ]
 </script>
 </head>
 <body>
