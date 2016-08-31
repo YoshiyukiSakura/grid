@@ -71,3 +71,9 @@ The param data can come from a form or somewhere else,there are two ways to excu
 grid.setParam(your data objects);
 grid.Grid(grid.opts);
 ```
+##单页面中使用多个Grid的情况
+##mutiple Grids in a single page
+一个页面使用多个Grid的情况已经被验证不会造成严重的冲突,你需要考虑以下几点
+1.表格之间最好不要有重复的数据,因为每个td元素都会被赋值ID,如果一定要重复来自某个接口的字段，你可以在option.id这里设置id后缀来进行区分;
+2.使用一个变量来接收后续可能需要操作的Grid对象,比如```var grid1 = $().Grid();var grid2 = $().Grid();```,这样你就可以通过grid1.opts的形式来访问其中的参数了
+
