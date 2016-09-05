@@ -53,6 +53,12 @@ a response json example
 ```
 {"cur":1, "page":100, "data":[{"OrderNumber":1,"EngineerNumber":"1\u53f7\u5de5\u7a0b"}]}
 ```
+##宽度
+##width
+参数option对象中可以设置一个width属性来定义表格总宽度,体现在table元素上,默认值是100%,可以传入100px或50%这样的字符串;  
+列宽的指定方法是在field属性中添加width属性;
+if you want to design the width of table,set option.width to your target string,the default value of table width is 100%;  
+you may also design a column width by setting option.field[].width;  
 ##翻页功能
 ##PAGE BUTTON
 翻页功能目前依赖后端实现的分页功能;
