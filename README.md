@@ -1,4 +1,4 @@
-# HOW TO USE MY GRID
+# HOW TO USE THIS ADD-ON
 ##上手
 ##START
 引入jQuery库,grid.js文件;  
